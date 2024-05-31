@@ -58,10 +58,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_212149) do
     t.decimal "price", precision: 12, scale: 2
     t.integer "home_type"
     t.integer "status"
+    t.integer "location_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_properties_on_location_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "properties", "locations"
 end

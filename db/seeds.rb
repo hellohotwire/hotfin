@@ -11,8 +11,8 @@
 require "open-uri"
 
 # Clear existing data
-Location.delete_all
-Property.delete_all
+Location.destroy_all
+Property.destroy_all
 
 # Seed locations in Austin, Texas
 locations = Location.create!([
@@ -337,30 +337,25 @@ property_data = [{
     home_type: 0,
     status: 0,
     location: locations[2]
-  },
-  {
-    title: "Westlake Luxury Home",
-    description: "High-end home in the Westlake area",
-    address: "104 Westlake Dr, Austin, TX",
-    beds: 5,
-    baths: 4,
-    square_feet: 3500,
-    acres: 0.70,
-    price: 1800000.00,
-    home_type: 0,
-    status: 0,
-    location: locations[3]
-  },
+  }
 ]
 
 # Seed properties
 property_data.each_with_index do |property_attrs, index|
   property = Property.create!(property_attrs)
+  puts "🏡 Created property #{index + 1}: #{property.title}"
+
   (1..5).each do |image_index|
-    image_filename = "property_#{index + 1}_#{image_index}.jpg"
-    image_path = Rails.root.join("db/seeds/images/#{image_index}/#{image_filename}")
-    property.images.attach(io: File.open(image_path), filename: image_filename)
+    image_filename = "property_#{index + 1}_#{image_index}.webp"
+    image_path = Rails.root.join("db/seeds/images/#{index + 1}/#{image_filename}")
+
+    if File.exist?(image_path)
+      property.thumbnails.attach(io: File.open(image_path), filename: image_filename)
+      puts "\t 🏞️ Attached #{image_filename} to property #{index + 1}"
+    else
+      puts "\t 🚨 Image #{image_filename} does not exist for property #{index + 1}"
+    end
   end
 end
 
-puts "✅ Seeded properties with images"
+puts "✅ Seeded 24 properties with multiple images"

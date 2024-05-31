@@ -11,6 +11,7 @@ class CreateProperties < ActiveRecord::Migration[7.1]
       t.decimal :price, precision: 12, scale: 2
       t.integer :home_type
       t.integer :status
+      t.references :location, null: false, foreign_key: true
 
       t.timestamps
     end
