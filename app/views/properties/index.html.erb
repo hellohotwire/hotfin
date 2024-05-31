@@ -1,14 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<div class="md:flex items-start gap-0">
+  <!-- Sidebar -->
+  <div class="md:w-[320px] w-full bg-white p-6 shadow-md h-screen">
+    <%= render "shared/logo" %>
+    <%= render "filters" %>
+    <% if user_signed_in? %>
+      <%= render "wishlist" %>
+    <% end %>
+    <%= render "shared/links" %>
 
-<h1>Properties</h1>
+  </div>
 
-<div id="properties">
-  <% @properties.each do |property| %>
-    <%= render property %>
-    <p>
-      <%= link_to "Show this property", property %>
-    </p>
-  <% end %>
+  <!-- Main Content -->
+  <div class="md:flex-1 overflow-y-auto h-screen">
+    <div class="md:p-8 p-6 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-5 md:overflow-y-auto max-w-6xl mx-auto">
+      <%= render @properties %>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New property", new_property_path %>

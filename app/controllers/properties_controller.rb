@@ -4,10 +4,44 @@ class PropertiesController < ApplicationController
   # GET /properties or /properties.json
   def index
     @properties = Property.all
+
+    if params[:home_type].present?
+      @properties = @properties.where(home_type: params[:home_type])
+    end
+
+    if params[:min_price].present?
+      @properties = @properties.where('price >= ?', params[:min_price])
+    end
+
+    if params[:max_price].present?
+      @properties = @properties.where('price <= ?', params[:max_price])
+    end
+
+    if params[:beds].present?
+      @properties = @properties.where(beds: params[:beds])
+    end
+
+    if params[:baths].present?
+      @properties = @properties.where(baths: params[:baths])
+    end
+
+    case params[:sort_by]
+    when 'newest'
+      @properties = @properties.order(created_at: :desc)
+    when 'oldest'
+      @properties = @properties.order(created_at: :asc)
+    when 'price_low_high'
+      @properties = @properties.order(price: :asc)
+    when 'price_high_low'
+      @properties = @properties.order(price: :desc)
+    end
+
   end
 
   # GET /properties/1 or /properties/1.json
   def show
+    @previous_property = @property.previous
+    @next_property = @property.next
   end
 
   # GET /properties/new

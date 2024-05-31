@@ -1,0 +1,34 @@
+<h2 class="text-base font-semibold mb-4 pb-2 border-b border-gray-300/60">Filters</h2>
+
+<%= form_with url: properties_path, method: :get, local: true do %>
+  <div class="mb-4">
+    <label class="form-label">Home Type</label>
+    <%= select_tag :home_type, options_for_select([['All Types', ''], ['Single Family', 'single_family'], ['Multi Family', 'multi_family'], ['Land', 'land'], ['Condo', 'condo']], params[:home_type]), class: "form-select" %>
+  </div>
+
+  <div class="mb-4">
+    <label class="form-label">Price Range</label>
+    <div class="flex items-center gap-2">
+      <%= number_field_tag :min_price, params[:min_price], placeholder: "Min", class: "form-input" %>
+      <%= number_field_tag :max_price, params[:max_price], placeholder: "Max", class: "form-input" %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label class="form-label">Bedrooms</label>
+    <%= number_field_tag :beds, params[:beds], placeholder: "Any", class: "form-input" %>
+  </div>
+
+  <div class="mb-4">
+    <label class="form-label">Bathrooms</label>
+    <%= select_tag :beds, options_for_select([['Any', ''], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]], params[:beds]), class: "form-select" %>
+
+  </div>
+
+  <div class="mb-4">
+    <label class="form-label">Sort By</label>
+    <%= select_tag :sort_by, options_for_select([['Newest', 'newest'], ['Oldest', 'oldest'], ['Price (Low to High)', 'price_low_high'], ['Price (High to Low)', 'price_high_low']], params[:sort_by]), class: "form-select" %>
+  </div>
+
+  <%= submit_tag "Apply Filters", class: "btn btn-primary w-full" %>
+<% end %>

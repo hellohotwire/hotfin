@@ -87,7 +87,7 @@ property_data = [{
     square_feet: 1500,
     acres: 0.20,
     price: 700000.00,
-    home_type: 0,
+    home_type: 1,
     status: 0,
     location: locations[4]
   },
@@ -100,7 +100,7 @@ property_data = [{
     square_feet: 2200,
     acres: 0.18,
     price: 800000.00,
-    home_type: 0,
+    home_type: 1,
     status: 0,
     location: locations[5]
   },
@@ -256,7 +256,7 @@ property_data = [{
     square_feet: 5000,
     acres: 1.50,
     price: 3000000.00,
-    home_type: 0,
+    home_type: 1,
     status: 0,
     location: locations[3]
   },
@@ -269,7 +269,7 @@ property_data = [{
     square_feet: 1800,
     acres: 0.25,
     price: 850000.00,
-    home_type: 0,
+    home_type: 1,
     status: 0,
     location: locations[4]
   },
@@ -282,7 +282,7 @@ property_data = [{
     square_feet: 1400,
     acres: 0.08,
     price: 650000.00,
-    home_type: 0,
+    home_type: 2,
     status: 0,
     location: locations[5]
   },

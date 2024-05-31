@@ -1,10 +1,103 @@
-<p style="color: green"><%= notice %></p>
+<div class="md:flex items-start gap-0">
+  <!-- Sidebar -->
+  <div class="md:w-[320px] w-full bg-white p-6 shadow-md md:h-screen">
+    <%= render "shared/logo" %>
+    <%= link_to "Back to listings", properties_path, class: "btn btn-white w-full" %>
 
-<%= render @property %>
+  </div>
 
-<div>
-  <%= link_to "Edit this property", edit_property_path(@property) %> |
-  <%= link_to "Back to properties", properties_path %>
+  <!-- Main Content -->
+  <div class="md:flex-1 overflow-y-auto h-screen md:border-l border-gray-200/90 relative">
+    <div id="<%= dom_id(@property) %>" class="md:px-16 px-4 pb-16 w-full bg-white group">
+      <% if @property.thumbnails.any? %>
+        <div data-controller="carousel" data-action="mousedown->carousel#startDrag mouseleave->carousel#stopDrag mouseup->carousel#stopDrag mousemove->carousel#drag" class="flex overflow-x-auto gap-1 -mx-16 rounded-t-md" data-carousel-target="container">
+          <% @property.thumbnails.each do |thumbnail| %>
+            <%= image_tag thumbnail, class: "object-cover object-center w-[80%] md:h-[460px] h-64 flex-shrink-0 select-none snap-center", alt: thumbnail.filename %>
+          <% end %>
+        </div>
+      <% end %>
 
-  <%= button_to "Destroy this property", @property, method: :delete %>
-</div>
+      <div class="max-w-4xl mx-auto md:p-8">
+
+        <div class="mt-6">
+          <%= property_status_label(@property) %>
+        </div>
+
+        <p class="font-extrabold text-xl mt-6"><%= number_to_currency @property.price %></p>
+
+        <h1 class="font-bold mt-2 mb-1 leading-tight text-4xl tracking-tight"><%= @property.address %></h1>
+
+        <p class="font-medium text-lg"><%= @property.title %></p>
+
+        <div class="mt-3 mb-2 flex items-center gap-3">
+          <div class="flex items-center gap-2">
+            <%= inline_svg_tag "bed.svg", class: "stroke-current size-4 text-slate-600" %>
+
+            <span><%= pluralize(@property.beds, 'bed') %></span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <%= inline_svg_tag "bath.svg", class: "stroke-current size-4 text-slate-600" %>
+
+            <span><%= pluralize(@property.baths, 'bath') %></span>
+          </div>
+        </div>
+
+        <ul class="flex items-center gap-2">
+          <li>
+            <%= number_with_delimiter(@property.square_feet) %> sqft.
+          </li>
+
+          <li><%= @property.acres %> acres</li>
+
+          <li><%= @property.home_type.humanize %></li>
+        </ul>
+
+        <div class="my-6">
+          <p class="text-sm">Description:</p>
+          <div class="prose prose-slate prose-lg">
+            <%= simple_format @property.description %>
+          </div>
+
+          <div class="mt-6 flex items-center gap-4">
+            <%= link_to "Tour this home", "#", class: "btn btn-white" %>
+
+            <% if user_signed_in? %>
+              <% if current_user.properties.include?(@property) %>
+                <%= button_to wishlist_path(@property), method: :delete, class: "btn btn-white gap-2", data: { turbo: false } do %>
+                  <%= inline_svg_tag "heart-solid.svg", class: "size-4 fill-current text-red-600", title: "Remove from wishlist" %>
+                  <span>Remove from Wishlist</span>
+                <% end %>
+
+              <% else %>
+                <%= button_to wishlists_path(property_id: @property.id), class: "btn btn-white gap-2" do %>
+                  <%= inline_svg_tag "heart-outline.svg", class: "size-4 stroke-current text-slate-500", title: "Add to wishlist" %>
+                  <span>Add to Wishlist</span>
+                <% end %>
+              <% end %>
+            <% end %>
+
+          </div>
+        </div>
+
+        <h3 class="mt-16 text-xl font-semibold tracking-tight">Explore other properties</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-16 border-t-2 border-gray-200/80">
+          <% if @previous_property.present? %>
+            <div>
+              <p class="font-medium mb-2 md:text-left text-center">Previous property</p>
+              <%= render "properties/property", property: @previous_property %>
+            </div>
+          <% end %>
+
+          <% if @next_property.present? %>
+            <div>
+              <p class="text-center md:text-right font-medium mb-2">Next property</p>
+
+              <%= render "properties/property", property: @next_property %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>

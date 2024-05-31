@@ -1,0 +1,21 @@
+<div class="sm:h-[calc(100vh_-_52px)] pt-10 sm:pt-0 flex flex-col items-center justify-center bg-cover bg-center px-4">
+  <div class="sm:flex-1 flex flex-col justify-center sm:w-[428px] w-full">
+    <div>
+      <div class="flex justify-center">
+        <%= render "shared/logo" %>
+      </div>
+
+      <div class="mt-6">
+        <%= yield :masthead %>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 dark:border-slate-700/80 shadow-sm rounded-lg p-8 border border-slate-300/60">
+        <%= yield %>
+      </div>
+
+      <div class="mt-4">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>

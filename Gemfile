@@ -68,3 +68,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "inline_svg"
+
+gem "devise", "~> 4.9"
+
+gem "name_of_person", "~> 1.1"
