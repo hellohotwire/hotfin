@@ -3,7 +3,9 @@
   <div class="md:w-[320px] w-full bg-white p-6 shadow-md md:h-screen">
     <%= render "shared/logo" %>
     <%= link_to "Back to listings", properties_path, class: "btn btn-white w-full" %>
-
+    <% if user_signed_in? %>
+      <%= render "wishlists/wishlist_sidebar" %>
+    <% end %>
   </div>
 
   <!-- Main Content -->
@@ -62,21 +64,10 @@
           <div class="mt-6 flex items-center gap-4">
             <%= link_to "Tour this home", "#", class: "btn btn-white" %>
 
-            <% if user_signed_in? %>
-              <% if current_user.properties.include?(@property) %>
-                <%= button_to wishlist_path(@property), method: :delete, class: "btn btn-white gap-2", data: { turbo: false } do %>
-                  <%= inline_svg_tag "heart-solid.svg", class: "size-4 fill-current text-red-600", title: "Remove from wishlist" %>
-                  <span>Remove from Wishlist</span>
-                <% end %>
-
-              <% else %>
-                <%= button_to wishlists_path(property_id: @property.id), class: "btn btn-white gap-2" do %>
-                  <%= inline_svg_tag "heart-outline.svg", class: "size-4 stroke-current text-slate-500", title: "Add to wishlist" %>
-                  <span>Add to Wishlist</span>
-                <% end %>
-              <% end %>
+            <!-- Add turbo_frame_tag and button partial -->
+            <%= turbo_frame_tag "#{dom_id(@property)}_detail_wishlist_button" do %>
+              <%= render "wishlists/detail_wishlist_button", property: @property %>
             <% end %>
-
           </div>
         </div>
 

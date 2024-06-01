@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
   <% if current_user.properties.include?(property) %>
-    <%= button_to wishlist_path(property), method: :delete, class: "rounded-md size-10 bg-black/50 hover:bg-black/50 flex items-center justify-center transition ease-in-out duration-200 relative -top-1 -right-1", data: { turbo: false } do %>
+    <%= button_to wishlist_path(property.id), method: :delete, class: "rounded-md size-10 bg-black/50 hover:bg-black/50 flex items-center justify-center transition ease-in-out duration-200 relative -top-1 -right-1" do %>
       <span class="sr-only">Remove from Wishlist</span>
       <%= inline_svg_tag "heart-solid.svg", class: "size-6 fill-current text-red-600", title: "Remove from wishlist" %>
     <% end %>
