@@ -1,0 +1,13 @@
+<%= turbo_frame_tag "wishlist_sidebar" do %>
+  <div class="my-6">
+    <h2 class="text-base font-semibold mb-4 pb-2 border-b border-gray-300/60">Wishlist</h2>
+
+    <% if current_user.properties.any? %>
+      <%= render partial: "properties/user_property", collection: current_user.properties, as: :property %>
+    <% else %>
+      <div class="prose prose-sm prose-slate">
+        <p>You don't have any wishlisted properties yet. Go add some!</p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

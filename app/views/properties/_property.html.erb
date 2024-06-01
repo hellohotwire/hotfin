@@ -5,7 +5,9 @@
       <%= property_status_label(property) %>
     </div>
 
-    <%= render "wishlist_button", property: property %>
+    <%= turbo_frame_tag "#{dom_id(property)}_wishlist_button" do %>
+      <%= render "wishlists/wishlist_button", property: property %>
+    <% end %>
   </div>
 
   <% if property.thumbnails.any? %>
