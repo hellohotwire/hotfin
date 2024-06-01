@@ -1,0 +1,13 @@
+<%# Index view %>
+<%= turbo_stream.update "#{dom_id(@property)}_wishlist_button" do %>
+  <%= render partial: "wishlists/wishlist_button", locals: { property: @property } %>
+<% end %>
+
+<%= turbo_stream.replace "wishlist_sidebar" do %>
+  <%= render partial: "wishlists/wishlist_sidebar" %>
+<% end %>
+
+<%# Show view %>
+<%= turbo_stream.update "#{dom_id(@property)}_detail_wishlist_button" do %>
+  <%= render partial: "wishlists/detail_wishlist_button", locals: { property: @property } %>
+<% end %>
