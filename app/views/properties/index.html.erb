@@ -7,13 +7,12 @@
       <%= render "wishlists/wishlist_sidebar" %>
     <% end %>
     <%= render "shared/links" %>
-
   </div>
 
   <!-- Main Content -->
   <div class="md:flex-1 overflow-y-auto h-screen">
-    <div class="md:p-8 p-6 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-5 md:overflow-y-auto max-w-6xl mx-auto">
-      <%= render @properties %>
-    </div>
+    <%= turbo_frame_tag "properties", loading: :lazy do %>
+      <%= render "properties", properties: @properties %>
+    <% end %>
   </div>
 </div>
