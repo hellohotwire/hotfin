@@ -1,0 +1,9 @@
+<%= turbo_stream.update "properties" do %>
+  <%= render "properties", properties: @properties %>
+<% end %>
+
+<%= turbo_stream.update "properties_count" do %>
+  <div class="text-xs">
+    Displaying <%= @properties.size %>/<%= pluralize(Property.all.size, 'property') %>
+  </div>
+<% end %>

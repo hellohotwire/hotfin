@@ -5,6 +5,11 @@ class PropertiesController < ApplicationController
   def index
 	  @filter = PropertyFilter.new(params)
 	  @properties = @filter.filter_properties(Property.all)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
   # GET /properties/1 or /properties/1.json

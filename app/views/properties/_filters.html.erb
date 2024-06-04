@@ -1,6 +1,16 @@
-<h2 class="text-base font-semibold mb-4 pb-2 border-b border-gray-300/60">Filters</h2>
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-base font-semibold">Filters</h2>
 
-<%= form_with url: properties_path, method: :get, local: true do %>
+  <%= turbo_frame_tag "properties_count" do %>
+    <div class="text-xs">
+      Displaying <%= @properties.size %>/<%= pluralize(Property.all.size, 'property') %>
+    </div>
+  <% end %>
+</div>
+
+<hr class="mb-6"/>
+
+<%= form_with url: properties_path, method: :get, data: { controller: "buttonless-form", action: "change->buttonless-form#handleChange", turbo_action: "advance" } do %>
   <div class="mb-4">
     <label class="form-label">Home Type</label>
     <%= select_tag :home_type, options_for_select([['All Types', ''], ['Single Family', 'single_family'], ['Multi Family', 'multi_family'], ['Land', 'land'], ['Condo', 'condo']], params[:home_type]), class: "form-select" %>
@@ -29,5 +39,8 @@
     <%= select_tag :sort_by, options_for_select([['Newest', 'newest'], ['Oldest', 'oldest'], ['Price (Low to High)', 'price_low_high'], ['Price (High to Low)', 'price_high_low']], params[:sort_by]), class: "form-select" %>
   </div>
 
-  <%= submit_tag "Apply Filters", class: "btn btn-primary w-full" %>
+  <div class="flex items-center justify-center mt-3">
+    <%= link_to "Reset filters", root_path, class: "underline font-medium text-indigo-500 hover:text-indigo-600 text-sm" %>
+  </div>
+
 <% end %>

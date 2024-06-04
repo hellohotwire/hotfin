@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ButtonlessFormController from "./buttonless_form_controller"
+application.register("buttonless-form", ButtonlessFormController)
+
 import CarouselController from "./carousel_controller"
 application.register("carousel", CarouselController)
 
