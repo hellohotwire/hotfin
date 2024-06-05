@@ -1,6 +1,6 @@
 <div class="md:flex items-start gap-0">
   <!-- Sidebar -->
-  <div class="md:w-[320px] w-full bg-white p-6 shadow-md h-screen">
+  <div class="md:w-[320px] w-full bg-white p-6 shadow-md md:h-screen">
     <%= render "shared/logo" %>
     <%= render "filters" %>
     <% if user_signed_in? %>
@@ -10,9 +10,8 @@
   </div>
 
   <!-- Main Content -->
-  <div class="md:flex-1 overflow-y-auto h-screen">
-    <%= turbo_frame_tag "properties", loading: :lazy do %>
-      <%= render "properties", properties: @properties %>
-    <% end %>
+  <div class="md:flex-1 overflow-y-auto h-screen p-6">
+    <%= turbo_frame_tag "properties" %>
+    <%= turbo_frame_tag "pagination", src: properties_path(format: :turbo_stream, params: params.slice(:home_type, :min_price, :max_price, :beds, :baths, :sort_by)), loading: :lazy, class: "grid grid-cols-1 md:grid-cols-3 gap-4" %>
   </div>
 </div>

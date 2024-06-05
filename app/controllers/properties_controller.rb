@@ -3,8 +3,10 @@ class PropertiesController < ApplicationController
 
   # GET /properties or /properties.json
   def index
-	  @filter = PropertyFilter.new(params)
-	  @properties = @filter.filter_properties(Property.all)
+    params.permit!
+    @filter = PropertyFilter.new(params)
+    @filtered_properties = @filter.filter_properties(Property.all)
+    @pagy, @properties = pagy_countless(@filtered_properties, items: 9)
 
     respond_to do |format|
       format.turbo_stream
