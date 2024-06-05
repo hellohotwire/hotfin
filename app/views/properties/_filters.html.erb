@@ -16,13 +16,12 @@
 
   <div class="mb-4">
     <label class="form-label">Bedrooms</label>
-    <%= number_field_tag :beds, params[:beds], placeholder: "Any", class: "form-input" %>
+    <%= select_tag :beds, options_for_select([['Any', ''], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]], params[:beds]), class: "form-select" %>
   </div>
 
   <div class="mb-4">
     <label class="form-label">Bathrooms</label>
-    <%= select_tag :beds, options_for_select([['Any', ''], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]], params[:beds]), class: "form-select" %>
-
+    <%= select_tag :baths, options_for_select([['Any', ''], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]], params[:baths]), class: "form-select" %>
   </div>
 
   <div class="mb-4">
