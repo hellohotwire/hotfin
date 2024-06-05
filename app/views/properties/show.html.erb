@@ -1,94 +1,89 @@
-<div class="md:flex items-start gap-0">
-  <!-- Sidebar -->
-  <div class="md:w-[320px] w-full bg-white p-6 shadow-md md:h-screen">
-    <%= render "shared/logo" %>
-    <%= link_to "Back to listings", properties_path, class: "btn btn-white w-full" %>
-    <% if user_signed_in? %>
-      <%= render "wishlists/wishlist_sidebar" %>
+<%= turbo_frame_tag "modal" do %>
+  <div id="<%= dom_id(@property) %>" class="md:px-16 px-4 pb-16 bg-white group shadow-3xl md:w-[80vw] w-full right-0 absolute md:top-2 top-0 rounded-tl-md overflow-y-auto">
+    <button data-action="click->dialog#close" class="rounded-full size-10 bg-black/70 hover:bg-black/90 group absolute top-3 left-3 flex items-center justify-center">
+      <svg class="stroke-current size-5 text-white/75 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+      <span class="sr-only">Close</span>
+    </button>
+
+    <% if @property.thumbnails.any? %>
+      <div data-controller="carousel" data-action="mousedown->carousel#startDrag mouseleave->carousel#stopDrag mouseup->carousel#stopDrag mousemove->carousel#drag" class="flex overflow-x-auto gap-1 -mx-16 rounded-tl-md" data-carousel-target="container">
+        <% @property.thumbnails.each do |thumbnail| %>
+          <%= image_tag thumbnail, class: "object-cover object-center w-[80%] md:h-[460px] h-64 flex-shrink-0 select-none snap-center", alt: thumbnail.filename %>
+        <% end %>
+      </div>
     <% end %>
-  </div>
 
-  <!-- Main Content -->
-  <div class="md:flex-1 overflow-y-auto h-screen md:border-l border-gray-200/90 relative">
-    <div id="<%= dom_id(@property) %>" class="md:px-16 px-4 pb-16 w-full bg-white group">
-      <% if @property.thumbnails.any? %>
-        <div data-controller="carousel" data-action="mousedown->carousel#startDrag mouseleave->carousel#stopDrag mouseup->carousel#stopDrag mousemove->carousel#drag" class="flex overflow-x-auto gap-1 -mx-16 rounded-t-md" data-carousel-target="container">
-          <% @property.thumbnails.each do |thumbnail| %>
-            <%= image_tag thumbnail, class: "object-cover object-center w-[80%] md:h-[460px] h-64 flex-shrink-0 select-none snap-center", alt: thumbnail.filename %>
-          <% end %>
-        </div>
-      <% end %>
+    <div class="max-w-4xl mx-auto md:p-8">
+      <div class="mt-6">
+        <%= property_status_label(@property) %>
+      </div>
 
-      <div class="max-w-4xl mx-auto md:p-8">
+      <p class="font-extrabold text-xl mt-6"><%= number_to_currency @property.price %></p>
 
-        <div class="mt-6">
-          <%= property_status_label(@property) %>
-        </div>
+      <h1 class="font-bold mt-2 mb-1 leading-tight text-4xl tracking-tight"><%= @property.address %></h1>
 
-        <p class="font-extrabold text-xl mt-6"><%= number_to_currency @property.price %></p>
+      <p class="font-medium text-lg"><%= @property.title %></p>
 
-        <h1 class="font-bold mt-2 mb-1 leading-tight text-4xl tracking-tight"><%= @property.address %></h1>
+      <div class="mt-3 mb-2 flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <%= inline_svg_tag "bed.svg", class: "stroke-current size-4 text-slate-600" %>
 
-        <p class="font-medium text-lg"><%= @property.title %></p>
-
-        <div class="mt-3 mb-2 flex items-center gap-3">
-          <div class="flex items-center gap-2">
-            <%= inline_svg_tag "bed.svg", class: "stroke-current size-4 text-slate-600" %>
-
-            <span><%= pluralize(@property.beds, 'bed') %></span>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <%= inline_svg_tag "bath.svg", class: "stroke-current size-4 text-slate-600" %>
-
-            <span><%= pluralize(@property.baths, 'bath') %></span>
-          </div>
+          <span><%= pluralize(@property.beds, 'bed') %></span>
         </div>
 
-        <ul class="flex items-center gap-2">
-          <li>
-            <%= number_with_delimiter(@property.square_feet) %> sqft.
-          </li>
+        <div class="flex items-center gap-2">
+          <%= inline_svg_tag "bath.svg", class: "stroke-current size-4 text-slate-600" %>
 
-          <li><%= @property.acres %> acres</li>
+          <span><%= pluralize(@property.baths, 'bath') %></span>
+        </div>
+      </div>
 
-          <li><%= @property.home_type.humanize %></li>
-        </ul>
+      <ul class="flex items-center gap-2">
+        <li>
+          <%= number_with_delimiter(@property.square_feet) %> sqft.
+        </li>
 
-        <div class="my-6">
-          <p class="text-sm">Description:</p>
-          <div class="prose prose-slate prose-lg">
-            <%= simple_format @property.description %>
-          </div>
+        <li><%= @property.acres %> acres</li>
 
-          <div class="mt-6 flex items-center gap-4">
-            <%= link_to "Tour this home", "#", class: "btn btn-white" %>
+        <li><%= @property.home_type.humanize %></li>
+      </ul>
 
-            <!-- Add turbo_frame_tag and button partial -->
-            <%= turbo_frame_tag "#{dom_id(@property)}_detail_wishlist_button" do %>
-              <%= render "wishlists/detail_wishlist_button", property: @property %>
-            <% end %>
-          </div>
+      <div class="my-6">
+        <p class="text-sm">Description:</p>
+        <div class="prose prose-slate prose-lg">
+          <%= simple_format @property.description %>
         </div>
 
-        <h3 class="mt-16 text-xl font-semibold tracking-tight">Explore other properties</h3>
+        <div class="mt-6 flex items-center gap-4">
+          <%= link_to "Tour this home", "#", class: "btn btn-white" %>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-16 border-t-2 border-gray-200/80">
-          <% if @previous_property.present? %>
-            <div>
-              <p class="font-medium mb-2 md:text-left text-center">Previous property</p>
-              <%= render "properties/property", property: @previous_property %>
-            </div>
-          <% end %>
-
-          <% if @next_property.present? %>
-            <div>
-              <p class="text-center md:text-right font-medium mb-2">Next property</p>
-
-              <%= render "properties/property", property: @next_property %>
-            </div>
+          <!-- Add turbo_frame_tag and button partial -->
+          <%= turbo_frame_tag "#{dom_id(@property)}_detail_wishlist_button" do %>
+            <%= render "wishlists/detail_wishlist_button", property: @property %>
           <% end %>
         </div>
       </div>
+
+      <h3 class="mt-16 text-xl font-semibold tracking-tight">Explore other properties</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-16 border-t-2 border-gray-200/80">
+        <% if @previous_property.present? %>
+          <div>
+            <p class="font-medium mb-2 md:text-left text-center">Previous property</p>
+            <%= render "properties/property", property: @previous_property %>
+          </div>
+        <% end %>
+
+        <% if @next_property.present? %>
+          <div>
+            <p class="text-center md:text-right font-medium mb-2">Next property</p>
+
+            <%= render "properties/property", property: @next_property %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
+<% end %>
