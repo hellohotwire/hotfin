@@ -21,7 +21,7 @@
     </div>
   <% end %>
 
-  <%= link_to property, target: :_top do %>
+  <%= link_to property_path(property), data: { turbo_frame: "modal" } do %>
     <p class="font-bold text-lg mt-2"><%= number_to_currency property.price %></p>
 
     <h2 class="font-normal tracking-tight mt-2 mb-1 leading-tight"><%= property.address %></h2>

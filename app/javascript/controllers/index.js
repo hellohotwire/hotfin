@@ -10,5 +10,8 @@ application.register("buttonless-form", ButtonlessFormController)
 import CarouselController from "./carousel_controller"
 application.register("carousel", CarouselController)
 
+import DialogController from "./dialog_controller"
+application.register("dialog", DialogController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)

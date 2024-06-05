@@ -1,1 +1,1 @@
-<%= link_to property.address, property_path(property), class: "block font-medium underline py-0.5 text-sm", target: :_top %>
+<%= link_to property.address, property_path(property), class: "block font-medium underline py-0.5 text-sm", data: { turbo_frame: "modal" } %>
