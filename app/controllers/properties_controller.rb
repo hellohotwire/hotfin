@@ -3,7 +3,7 @@ class PropertiesController < ApplicationController
 
   # GET /properties or /properties.json
   def index
-    params.permit!
+    @filter_params = params.permit(:home_type, :min_price, :max_price, :beds, :baths, :sort_by)
     @filter = PropertyFilter.new(params)
     @filtered_properties = @filter.filter_properties(Property.all)
     @pagy, @properties = pagy_countless(@filtered_properties, items: 9)

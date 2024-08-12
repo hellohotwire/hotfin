@@ -5,7 +5,7 @@
 
 <% if @pagy.next.present? %>
   <%= turbo_stream.replace "pagination" do %>
-    <%= turbo_frame_tag "pagination", src: properties_path(page: @pagy.next, format: :turbo_stream, params: params.slice(:home_type, :min_price, :max_price, :beds, :baths, :sort_by)), loading: :lazy %>
+    <%= turbo_frame_tag "pagination", src: properties_path(page: @pagy.next, format: :turbo_stream, params: @filter_params), loading: :lazy %>
   <% end %>
 <% end %>
 

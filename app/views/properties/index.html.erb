@@ -12,6 +12,6 @@
   <!-- Main Content -->
   <div class="md:flex-1 overflow-y-auto h-screen p-6">
     <%= turbo_frame_tag "properties" %>
-    <%= turbo_frame_tag "pagination", src: properties_path(format: :turbo_stream, params: params.slice(:home_type, :min_price, :max_price, :beds, :baths, :sort_by)), loading: :lazy, class: "grid grid-cols-1 md:grid-cols-3 gap-4" %>
+    <%= turbo_frame_tag "pagination", src: properties_path(format: :turbo_stream, params: @filter_params), loading: :lazy, class: "grid grid-cols-1 md:grid-cols-3 gap-4" %>
   </div>
 </div>
