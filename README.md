@@ -1,24 +1,5 @@
-# README
+# Hotfin
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[hellohotwire.com](hellohotwire.com)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Hotfin is a real estate web app inspired by Redfin. While it’s not jam-packed with features, the opportunity exists to expand. We’ll use this app as a jumping-off point for getting more familiar with Hotwire. 
